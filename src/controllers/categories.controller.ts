@@ -3,8 +3,8 @@ import Category from "../models/category.model";
 
 export async function getAllCategories(req: Request, res: Response) {
 	try {
-		const result = await Category.find();
-		res.status(200).json(result);
+		const response = await Category.find();
+		res.status(200).json(response);
 	} catch (error) {
 		res.status(400).json({ error });
 	}
@@ -12,8 +12,11 @@ export async function getAllCategories(req: Request, res: Response) {
 
 export async function getCategory(req: Request, res: Response) {
 	try {
-		const result = await Category.findById(req.params.id);
-		res.status(200).json(result);
+		const response = await Category.findById(req.params.id);
+		if (!response) {
+			res.status(404).json({ error: "Category not found" });
+		}
+		res.status(200).json(response);
 	} catch (error) {
 		res.status(400).json({ error });
 	}
@@ -27,10 +30,15 @@ export async function createCategory(req: Request, res: Response) {
 		price: req.body.price,
 	};
 	try {
-		const result = await Category.create(category);
+		const response = await Category.create(category);
+		if (!response) {
+			res
+				.status(404)
+				.json({ error: "There is something wrong! Please try again" });
+		}
 		res
 			.status(200)
-			.json({ message: "Done! Category has been created", category: result });
+			.json({ message: "Done! Category has been created", category: response });
 	} catch (error) {
 		res.status(400).json({ error });
 	}
@@ -44,15 +52,15 @@ export async function updateCategory(req: Request, res: Response) {
 		price: req.body.price,
 	};
 	try {
-		const result = await Category.findByIdAndUpdate(req.params.id, req.body);
-		if (!result) {
+		const response = await Category.findByIdAndUpdate(req.params.id, req.body);
+		if (!response) {
 			res
 				.status(404)
 				.json({ error: "There is something wrong! Please try again" });
 		}
 		res
 			.status(200)
-			.json({ message: "Done! Category has been updated", category: result });
+			.json({ message: "Done! Category has been updated", category: response });
 	} catch (error) {
 		res.status(400).json({ error });
 	}
@@ -60,15 +68,15 @@ export async function updateCategory(req: Request, res: Response) {
 
 export async function deleteCategory(req: Request, res: Response) {
 	try {
-		const result = await Category.findByIdAndDelete(req.params.id);
-		if (!result) {
+		const response = await Category.findByIdAndDelete(req.params.id);
+		if (!response) {
 			res
 				.status(404)
 				.json({ error: "There is something wrong! Please try again" });
 		}
 		res
 			.status(200)
-			.json({ message: "Done! Category has been deleted", category: result });
+			.json({ message: "Done! Category has been deleted", category: response });
 	} catch (error) {
 		res.status(400).json({ error });
 	}

@@ -1,7 +1,6 @@
 import { User, UserModel } from "interfaces/User";
 import { Schema, model } from "mongoose";
 import bcrypt from "bcrypt";
-import validator from "validator";
 
 // como é uma api de administração, todos os usuários criados terão privilégios de administradores
 const userSchema = new Schema<User, UserModel>(
@@ -19,22 +18,10 @@ userSchema.statics.signup = async function signUp(
 	username,
 	password
 ) {
-	if (!fullName || !username || !password) {
-		throw Error("All fields must be filled");
-	}
-	if (!validator.isStrongPassword(password)) {
-		throw Error(
-			"Password must have at least one uppercase character, one special character and one number"
-		);
-	}
-	const exists = await this.findOne({ username });
-	if (exists) {
-		throw Error("Username already in use");
-	}
 	const salt = await bcrypt.genSalt(10);
 	const hash = await bcrypt.hash(password, salt);
 
-	const user = await this.create({ fullName, password: hash });
+	const user = await this.create({ fullName, username, password: hash });
 	return user;
 };
 
