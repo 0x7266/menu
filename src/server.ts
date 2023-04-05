@@ -15,6 +15,9 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/", index);
+app.get("*", (req, res) => {
+	res.json({ error: "Nothing here" });
+});
 
 connect(() =>
 	app.listen(port, () => {
