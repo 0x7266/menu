@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 const productSchema = new Schema(
 	{
 		// mongodb insere o id (String) automaticamente
-		categories: { type: [], required: true },
+		categories: { type: [String], required: true },
 		name: { type: String, required: true, unique: true },
 		qty: { type: Number, required: true },
 		price: { type: Number, required: true },

@@ -1,12 +1,12 @@
-import { ObjectId, Types } from "mongoose";
+import { ObjectId } from "mongoose";
 import Category from "./Category";
 
-interface Product {
+interface ProductModel extends Document {
 	_id: ObjectId;
-	categories: Types.DocumentArray<Category>;
+	categories: Category[];
 	name: String;
 	qty: Number;
 	price: Number;
 }
 
-export default Product;
+export default ProductModel;

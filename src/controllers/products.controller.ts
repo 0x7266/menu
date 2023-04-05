@@ -14,7 +14,7 @@ export async function getProduct(req: Request, res: Response) {
 	try {
 		const response = await Product.findById(req.params.id);
 		if (!response) {
-			res.status(404).json({ error: "No such product" });
+			return res.status(404).json({ error: "No such product" });
 		}
 		res
 			.status(200)
@@ -23,17 +23,18 @@ export async function getProduct(req: Request, res: Response) {
 		res.status(400).json({ error });
 	}
 }
+
 export async function createProduct(req: Request, res: Response) {
-	const product = {
-		categories: req.body.categories,
-		name: req.body.name,
-		qty: req.body.qty,
-		price: req.body.price,
-	};
+	const { categories, name, qty, price } = req.body;
 	try {
-		const response = await Product.create(product);
+		if (!categories || !name || !qty || !price) {
+			return res.status(404).json({ error: "All fields must be filled" });
+		}
+		const response = await Product.create({ categories, name, qty, price });
 		if (!response) {
-			res.status(404).json({ error: "Something wrong! Please try again" });
+			return res
+				.status(404)
+				.json({ error: "Something wrong! Please try again" });
 		}
 		res
 			.status(200)
@@ -42,17 +43,21 @@ export async function createProduct(req: Request, res: Response) {
 		res.status(400).json({ error });
 	}
 }
+
 export async function updateProduct(req: Request, res: Response) {
-	const product = {
-		categories: req.body.categories,
-		name: req.body.name,
-		qty: req.body.qty,
-		price: req.body.price,
-	};
+	const { categories, name, qty, price } = req.body;
 	try {
-		const response = await Product.findByIdAndUpdate(req.params.id, req.body);
+		if (!categories || !name || !qty || !price) {
+			return res.status(404).json({ error: "All fields must be filled" });
+		}
+		const response = await Product.findByIdAndUpdate(req.params.id, {
+			categories,
+			name,
+			qty,
+			price,
+		});
 		if (!response) {
-			res
+			return res
 				.status(404)
 				.json({ error: "There is something wrong! Please try again" });
 		}
@@ -67,7 +72,7 @@ export async function deleteProduct(req: Request, res: Response) {
 	try {
 		const response = await Product.findByIdAndDelete(req.params.id);
 		if (!response) {
-			res
+			return res
 				.status(404)
 				.json({ error: "There is something wrong! Please try again" });
 		}

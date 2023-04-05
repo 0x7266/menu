@@ -6,4 +6,10 @@ interface Category {
 	name: String;
 }
 
-export default Category;
+interface CategoryModel extends Document {
+	_id: ObjectId;
+	parent: Category | null;
+	name: String;
+}
+
+export default CategoryModel;

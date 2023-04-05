@@ -14,7 +14,7 @@ export async function getCategory(req: Request, res: Response) {
 	try {
 		const response = await Category.findById(req.params.id);
 		if (!response) {
-			res.status(404).json({ error: "Category not found" });
+			return res.status(404).json({ error: "Category not found" });
 		}
 		res.status(200).json(response);
 	} catch (error) {
@@ -23,16 +23,14 @@ export async function getCategory(req: Request, res: Response) {
 }
 
 export async function createCategory(req: Request, res: Response) {
-	const category = {
-		categories: req.body.categories,
-		name: req.body.name,
-		qty: req.body.qty,
-		price: req.body.price,
-	};
+	const { parent, name } = req.body.name;
 	try {
-		const response = await Category.create(category);
+		if (!parent || !name) {
+			return res.status(404).json({ error: "All fields must be filled" });
+		}
+		const response = await Category.create({ parent, name });
 		if (!response) {
-			res
+			return res
 				.status(404)
 				.json({ error: "There is something wrong! Please try again" });
 		}
@@ -45,16 +43,17 @@ export async function createCategory(req: Request, res: Response) {
 }
 
 export async function updateCategory(req: Request, res: Response) {
-	const category = {
-		categories: req.body.categories,
-		name: req.body.name,
-		qty: req.body.qty,
-		price: req.body.price,
-	};
+	const { parent, name } = req.body.name;
 	try {
-		const response = await Category.findByIdAndUpdate(req.params.id, req.body);
+		if (!parent || !name) {
+			return res.status(404).json({ error: "All fields must be filled" });
+		}
+		const response = await Category.findByIdAndUpdate(req.params.id, {
+			parent,
+			name,
+		});
 		if (!response) {
-			res
+			return res
 				.status(404)
 				.json({ error: "There is something wrong! Please try again" });
 		}
@@ -70,7 +69,7 @@ export async function deleteCategory(req: Request, res: Response) {
 	try {
 		const response = await Category.findByIdAndDelete(req.params.id);
 		if (!response) {
-			res
+			return res
 				.status(404)
 				.json({ error: "There is something wrong! Please try again" });
 		}
