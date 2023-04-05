@@ -1,13 +1,12 @@
-import { Schema, Types, model } from "mongoose";
-import Category from "../types/Category";
+import { Schema, model } from "mongoose";
 
 const productSchema = new Schema(
 	{
 		// mongodb insere o id (String) automaticamente
-		categories: { type: Types.Array<Category>, required: true },
-		name: String,
-		qty: Number,
-		price: Number,
+		categories: { type: [], required: true },
+		name: { type: String, required: true, unique: true },
+		qty: { type: Number, required: true },
+		price: { type: Number, required: true },
 	},
 	{ timestamps: true }
 );

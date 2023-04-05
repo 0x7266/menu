@@ -1,13 +1,12 @@
-import { Schema, Types, model } from "mongoose";
-import Category from "../types/Category";
+import { Schema, model } from "mongoose";
 
 const categorySchema = new Schema(
 	{
 		// mongodb insere o id (String) automaticamente
-		parent: { type: Types.Array<Category>, required: true },
-		name: { type: String, required: true },
+		parent: { type: [], required: true },
+		name: { type: String, required: true, unique: true },
 	},
 	{ timestamps: true }
 );
 
-export default model("Product", categorySchema);
+export default model("Category", categorySchema);
