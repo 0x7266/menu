@@ -45,9 +45,6 @@ export async function createCategory(req: Request, res: Response) {
 export async function updateCategory(req: Request, res: Response) {
 	const { parent, name } = req.body.name;
 	try {
-		if (!parent || !name) {
-			return res.status(404).json({ error: "All fields must be filled" });
-		}
 		const response = await Category.findByIdAndUpdate(req.params.id, {
 			parent,
 			name,

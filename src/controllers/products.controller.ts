@@ -47,9 +47,6 @@ export async function createProduct(req: Request, res: Response) {
 export async function updateProduct(req: Request, res: Response) {
 	const { categories, name, qty, price } = req.body;
 	try {
-		if (!categories || !name || !qty || !price) {
-			return res.status(404).json({ error: "All fields must be filled" });
-		}
 		const response = await Product.findByIdAndUpdate(req.params.id, {
 			categories,
 			name,
