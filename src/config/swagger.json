@@ -1,0 +1,94 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Menu",
+		"description": "API para administração de cardápio feita para a Fábrica de Startup",
+		"version": "1.0.0"
+	},
+	"paths": {
+		"/auth/login": {
+			"post": {
+				"summary": "Fazer login",
+				"description": "Essa rota será responsável por realizar o login no sistema",
+				"tags": ["auth"],
+				"operationId": "login"
+			}
+		},
+		"/auth/signup": {
+			"post": {
+				"summary": "Cadastrar novo usuário",
+				"description": "Essa rota será responsável por realizar o cadastro de um novo usuário",
+				"tags": ["auth"],
+				"operationId": "signUp"
+			}
+		},
+		"/product": {
+			"post": {
+				"summary": "Cadastar produto",
+				"description": "Essa rota será responsável por cadastrar um novo produto",
+				"tags": ["product"],
+				"operationId": "createProduct"
+			},
+			"get": {
+				"summary": "Listar produtos",
+				"description": "Essa rota será responsável por listar todos os produtos",
+				"tags": ["product"],
+				"operationId": "getAllProducts"
+			}
+		},
+		"/product:id": {
+			"get": {
+				"summary": "Listar produto",
+				"description": "Essa rota será responsável por listar um produto baseado no ID",
+				"tags": ["product"],
+				"operationId": "getProduct"
+			},
+			"patch": {
+				"summary": "Editar produto",
+				"description": "Essa rota será responsável por editar um produto",
+				"tags": ["product"],
+				"operationId": "updateProduct"
+			},
+			"delete": {
+				"summary": "Remover produto",
+				"description": "Essa rota será responsável por remover um produto",
+				"tags": ["product"],
+				"operationId": "deleteProduct"
+			}
+		},
+		"/category": {
+			"post": {
+				"summary": "Cadastrar categoria",
+				"description": "Essa rota será responsável por cadastrar uma nova categoria",
+				"tags": ["category"],
+				"operationId": "createCategory"
+			},
+			"get": {
+				"summary": "Listar categorias",
+				"description": "Essa rota será responsável por listar todas as categoria",
+				"tags": ["category"],
+				"operationId": "getAllProducts"
+			}
+		},
+		"/category:id": {
+			"get": {
+				"summary": "Listar categoria",
+				"description": "Essa rota será responsável por listar um categoria baseado no ID",
+				"tags": ["category"],
+				"operationId": "getCategory"
+			},
+			"patch": {
+				"summary": "Editar categoria",
+				"description": "Essa rota será responsável por editar um categoria",
+				"tags": ["category"],
+				"operationId": "updateCategory"
+			},
+			"delete": {
+				"summary": "Remover categoria",
+				"description": "Essa rota será responsável por remover um categoria",
+				"tags": ["category"],
+				"operationId": "deleteCategory"
+			}
+		}
+	}
+}
