@@ -11,7 +11,16 @@
 				"summary": "Fazer login",
 				"description": "Essa rota será responsável por realizar o login no sistema",
 				"tags": ["auth"],
-				"operationId": "login"
+				"operationId": "login",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginRequest"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/auth/signup": {
@@ -19,7 +28,16 @@
 				"summary": "Cadastrar novo usuário",
 				"description": "Essa rota será responsável por realizar o cadastro de um novo usuário",
 				"tags": ["auth"],
-				"operationId": "signUp"
+				"operationId": "signUp",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/signUpRequest"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/product": {
@@ -27,7 +45,16 @@
 				"summary": "Cadastar produto",
 				"description": "Essa rota será responsável por cadastrar um novo produto",
 				"tags": ["product"],
-				"operationId": "createProduct"
+				"operationId": "createProduct",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/createProductRequest"
+							}
+						}
+					}
+				}
 			},
 			"get": {
 				"summary": "Listar produtos",
@@ -61,13 +88,22 @@
 				"summary": "Cadastrar categoria",
 				"description": "Essa rota será responsável por cadastrar uma nova categoria",
 				"tags": ["category"],
-				"operationId": "createCategory"
+				"operationId": "createCategory",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/createCategoryRequest"
+							}
+						}
+					}
+				}
 			},
 			"get": {
 				"summary": "Listar categorias",
 				"description": "Essa rota será responsável por listar todas as categoria",
 				"tags": ["category"],
-				"operationId": "getAllProducts"
+				"operationId": "getAllCategories"
 			}
 		},
 		"/category:id": {
@@ -88,6 +124,63 @@
 				"description": "Essa rota será responsável por remover um categoria",
 				"tags": ["category"],
 				"operationId": "deleteCategory"
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"Category": {
+				"type": "object",
+				"properties": {
+					"name": { "type": "string", "required": "true" },
+					"parent": {
+						"type": "Category",
+						"required": "true",
+						"default": "null"
+					}
+				}
+			},
+			"LoginRequest": {
+				"type": "object",
+				"properties": {
+					"username": { "type": "string", "required": "true" },
+					"password": { "type": "string", "required": "true" }
+				}
+			},
+			"signUpRequest": {
+				"type": "object",
+				"properties": {
+					"fullName": { "type": "string", "required": "true" },
+					"username": { "type": "string", "required": "true" },
+					"password": { "type": "string", "required": "true" }
+				}
+			},
+			"createProductRequest": {
+				"type": "object",
+				"properties": {
+					"name": { "type": "string", "required": "true" },
+					"categories": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/Category",
+							"required": "true"
+						}
+					},
+					"qty": { "type": "integer", "required": "true" },
+					"price": { "type": "number", "required": "true" }
+				}
+			},
+			"createCategoryRequest": {
+				"type": "object",
+				"properties": {
+					"name": { "type": "string", "required": "true" },
+					"parent": {
+						"oneOf": [
+							{ "$ref": "#/components/schemas/Category" },
+							{ "type": "null" }
+						]
+					}
+				}
 			}
 		}
 	}
