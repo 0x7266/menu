@@ -1,26 +1,27 @@
 import { Request, Response } from "express";
 import Product from "../models/product.model";
+import IProduct from "interfaces/Product";
 
 export async function getAllProducts(req: Request, res: Response) {
 	try {
-		const response = await Product.find();
+		const response: IProduct[] = await Product.find().populate("categories");
 		res.status(200).json(response);
 	} catch (error) {
-		res.status(400).json({ error });
+		res.status(500).json({ error });
 	}
 }
 
 export async function getProduct(req: Request, res: Response) {
 	try {
-		const response = await Product.findById(req.params.id);
-		if (!response) {
-			return res.status(404).json({ error: "No such product" });
+		const response: IProduct | null = await Product.findById(
+			req.params.id
+		).populate("categories");
+		if (response == null) {
+			return res.status(404).json({ message: "Product not found" });
 		}
-		res
-			.status(200)
-			.json({ message: "Done! Product has been found", product: response });
+		res.status(200).json(response);
 	} catch (error) {
-		res.status(400).json({ error });
+		res.status(500).json({ error });
 	}
 }
 
@@ -30,7 +31,12 @@ export async function createProduct(req: Request, res: Response) {
 		if (!categories || !name || !qty || !price) {
 			return res.status(404).json({ error: "All fields must be filled" });
 		}
-		const response = await Product.create({ categories, name, qty, price });
+		const response: IProduct = await Product.create({
+			categories,
+			name,
+			qty,
+			price,
+		});
 		if (!response) {
 			return res
 				.status(404)

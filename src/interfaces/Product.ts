@@ -1,12 +1,11 @@
 import { ObjectId } from "mongoose";
-import Category from "./Category";
+import ICategory from "./Category";
 
-interface ProductModel extends Document {
-	_id: ObjectId;
-	categories: Category[];
-	name: String;
-	qty: Number;
-	price: Number;
+interface IProduct extends Document {
+	name: string;
+	categories: ICategory[];
+	qty: number;
+	price: number;
 }
 
-export default ProductModel;
+export default IProduct;

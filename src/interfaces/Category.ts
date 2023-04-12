@@ -1,15 +1,9 @@
-import { ObjectId } from "mongoose";
+import { Document, ObjectId, Types } from "mongoose";
 
-interface Category {
-	_id: ObjectId;
-	parent: Category | null;
-	name: String;
+interface ICategory extends Document {
+	name: string;
+	parent: ICategory | null;
+	parentName?: string;
 }
 
-interface CategoryModel extends Document {
-	_id: ObjectId;
-	parent: Category | null;
-	name: String;
-}
-
-export default CategoryModel;
+export default ICategory;
